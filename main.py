@@ -9,7 +9,7 @@ model = NLPModel()
 async def root():
     return {"message":"Hello World"}
 
-@app.post("/ping")
+@app.api_route("/ping", methods=["GET", "POST", "PUT", "PATCH","DELETE", "HEAD", "OPTIONS"])
 async def ping():
     return Response(status_code=200)
 
