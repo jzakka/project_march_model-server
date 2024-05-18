@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from fastapi.responses import JSONResponse
 from service.model import NLPModel
 app = FastAPI()
@@ -8,6 +8,10 @@ model = NLPModel()
 @app.get("/")
 async def root():
     return {"message":"Hello World"}
+
+@app.post("/ping")
+async def ping():
+    return Response(status_code=200)
 
 @app.post("/api/classify")
 async def classify(request: Request):
