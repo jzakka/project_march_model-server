@@ -1,9 +1,9 @@
 import os
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TextClassificationPipeline
 
-MODEL_PATH = os.getenv("MODEL_PATH", "/root/kc_electra_unsmile")
+# MODEL_PATH = os.getenv("MODEL_PATH", "/root/kc_electra_unsmile")
 
-#MODEL_PATH = os.getenv("MODEL_PATH", "C:/Users/허대현/tiny_git/NLPService/project_march_model-server/kc_electra_small_unified")
+MODEL_PATH = os.getenv("MODEL_PATH", "/Users/chungsanghwa/projects/final-season/kc_electra_small_unified_with_merged_labels")
 #이 코드는 로컬 테스트 용입니다.
 
 class NLPModel:
@@ -15,7 +15,7 @@ class NLPModel:
             tokenizer = self.tokenizer,
             device=-1,
             return_all_scores=True,
-            function_to_apply='sigmoid'
+            # function_to_apply='sigmoid'
         ) # 사용을 위한 파이프라인
     
     

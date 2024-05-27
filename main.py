@@ -17,8 +17,6 @@ async def ping():
 @app.post("/api/classify")
 async def classify(request: Request):
     body = await request.body()
-    text_data = json.loads(json.loads(body.decode()))
-    # json array -> python list
-    res = model.classify(text_content = text_data)
-    # batch-size를 4개로 할당해 CPU 환경에서의 성능 향상을 고려했습니다.
+    text_data = json.loads(body.decode())  # 여기서 json.loads()를 한 번만 호출합니다.
+    res = model.classify(text_content=text_data)
     return JSONResponse(res)
