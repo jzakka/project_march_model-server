@@ -23,7 +23,7 @@ class NLPModel:
     
     
     def classify(self, text_content):
-        results = self.pipe(text_content, batch_size=4)
+        results = self.pipe(text_content, batch_size=4, truncation=True)
         for result in results:
             for ls_pair in result:
                 ls_pair['score'] = round(ls_pair['score'], 4)
