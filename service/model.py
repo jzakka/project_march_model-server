@@ -1,4 +1,5 @@
 import os
+import asyncio
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TextClassificationPipeline
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -22,8 +23,9 @@ class NLPModel:
         ) # 사용을 위한 파이프라인
     
     
-    def classify(self, text_content):
-        results = self.pipe(text_content, batch_size=4)
+    async def classify(self, text_content):
+        loop = asyncio.get_event_loop()
+        results = await loop.run_in_executor(None, lambda: self.pipe(text_content, batch_size=4))
         for result in results:
             for ls_pair in result:
                 ls_pair['score'] = round(ls_pair['score'], 4)
