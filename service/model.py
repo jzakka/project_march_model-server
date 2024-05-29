@@ -35,6 +35,8 @@ class NLPModel:
         output_list.extend(results)
 
     def classify_mt(self, text_content, num_workers=4): # 멀티 쓰레드 적용
+        if len(text_content) < num_workers: 
+            num_workers = len(text_content)
         chunk_size = len(text_content) // num_workers
         chunks = [text_content[i:i + chunk_size] for i in range(0, len(text_content), chunk_size)]
 
