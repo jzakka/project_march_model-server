@@ -18,12 +18,5 @@ async def ping():
 async def classify(request: Request):
     body = await request.body()
     text_data = json.loads(body.decode())  # 여기서 json.loads()를 한 번만 호출합니다.
-    res = model.classify(text_content=text_data)
-    return JSONResponse(res)
-
-@app.post("/api/classify_mt")
-async def classify_mt(request: Request):
-    body = await request.body()
-    text_data = json.loads(body.decode())  # 여기서 json.loads()를 한 번만 호출합니다.
-    res = model.classify_mt(text_content=text_data)
+    res = model.classify_mt(text_content=text_data) # 멀티쓰레드 적용됨.
     return JSONResponse(res)
