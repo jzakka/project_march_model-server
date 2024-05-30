@@ -26,10 +26,7 @@ class NLPModel:
     async def classify(self, text_content):
         loop = asyncio.get_event_loop()
         results = await loop.run_in_executor(None, lambda: self.pipe(text_content, batch_size=4))
-        for result in results:
-            for ls_pair in result:
-                ls_pair['score'] = round(ls_pair['score'], 4)
-        return results
+        return results[0]
     
 
     def classify_worker(self, texts, output_list):

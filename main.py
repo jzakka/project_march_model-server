@@ -20,3 +20,11 @@ async def classify(request: Request):
     text_data = json.loads(body.decode())  # 여기서 json.loads()를 한 번만 호출합니다.
     res = await model.classify(text_content=text_data) # 멀티쓰레드 적용됨.
     return JSONResponse(res)
+
+@app.post("/api/classify-single")
+async def classify(request: Request):
+    body = await request.body()
+    text_data = body.decode("utf-8")
+    print(text_data)  # 여기서 json.loads()를 한 번만 호출합니다.
+    res = await model.classify(text_content=text_data) # 멀티쓰레드 적용됨.
+    return JSONResponse(res)
