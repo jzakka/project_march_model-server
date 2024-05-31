@@ -4,10 +4,10 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Text
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-#MODEL_PATH = os.getenv("MODEL_PATH", "/root/kc_electra_unsmile")
+MODEL_PATH = os.getenv("MODEL_PATH", "/root/kc_electra_small_unified_with_merged_labels")
 
 #MODEL_PATH = os.getenv("MODEL_PATH", "/Users/chungsanghwa/projects/final-season/kc_electra_small_unified_with_merged_labels")
-MODEL_PATH = os.getenv("MODEL_PATH","C:/Users/허대현/tiny_git/NLPService/project_march_model-server/kc_electra_small_unified")
+# MODEL_PATH = os.getenv("MODEL_PATH","C:/Users/허대현/tiny_git/NLPService/project_march_model-server/kc_electra_small_unified")
 #이 코드는 로컬 테스트 용입니다.
 
 executor = ThreadPoolExecutor(max_workers=200)
