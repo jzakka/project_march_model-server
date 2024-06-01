@@ -18,5 +18,5 @@ async def ping():
 async def classify(request: Request):
     body = await request.body()
     text_data = json.loads(body.decode())  # 여기서 json.loads()를 한 번만 호출합니다.
-    res = model.classify_mt(text_content=text_data) # 멀티쓰레드 적용됨.
+    res = await model.classify_async(text_content=text_data) # 비동기 처리 
     return JSONResponse(res)

@@ -1,6 +1,6 @@
 import os
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TextClassificationPipeline
-import time
+import asyncio
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 #MODEL_PATH = os.getenv("MODEL_PATH", "/root/kc_electra_unsmile")
@@ -23,12 +23,24 @@ class NLPModel:
     
     
     def classify(self, text_content):
-        results = self.pipe(text_content, batch_size=4, truncation=True)
+        results = self.pipe(text_content, batch_size=32, truncation=True)
         for result in results:
             for ls_pair in result:
                 ls_pair['score'] = round(ls_pair['score'], 4)
         return results
     
+    
+    async def classify_async(self, text_content):  # 테스트는 이 함수를 통해서 부탁드릴게요
+        loop = asyncio.get_event_loop()
+        results = await loop.run_in_executor(None, lambda: self.pipe(text_content, batch_size=128, truncation=True))
+        # 이 위 코드의 batch_size 인자만 4, 16, 64, 128, 256 등으로 수정해주시면 되겠습니다.
+        def round_score(ls_pair):
+            ls_pair['score'] = round(ls_pair['score'], 4)
+            return ls_pair
+        def process_result(result):
+            return list(map(round_score, result))
+        results = list(map(process_result, results))
+        return results
 
     def classify_worker(self, texts, output_list):
         results = self.classify(texts)
@@ -48,4 +60,9 @@ class NLPModel:
             #for future in as_completed(future_to_chunk):
                 #future.result()  # 예외 처리를 위해 필요할 수 있음
 
+        return results
+    
+    async def classify_mt_async(self, text_content, num_workers=4):
+        loop = asyncio.get_event_loop()
+        results = await loop.run_in_executor(None, lambda: self.classify_mt(text_content,num_workers=num_workers))
         return results
