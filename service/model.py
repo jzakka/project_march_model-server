@@ -10,8 +10,6 @@ MODEL_PATH = os.getenv("MODEL_PATH", "/root/kc_electra_small_unified_with_merged
 # MODEL_PATH = os.getenv("MODEL_PATH","C:/Users/허대현/tiny_git/NLPService/project_march_model-server/kc_electra_small_unified")
 #이 코드는 로컬 테스트 용입니다.
 
-executor = ThreadPoolExecutor(max_workers=200)
-
 class NLPModel:
     def __init__(self):
         self.model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH,local_files_only=True)
@@ -27,7 +25,7 @@ class NLPModel:
     
     async def classify(self, text_content):
         loop = asyncio.get_event_loop()
-        results = await loop.run_in_executor(executor, lambda: self.pipe(text_content, batch_size=64))
+        results = await loop.run_in_executor(None, lambda: self.pipe(text_content, batch_size=64))
         return results[0]
     
 
