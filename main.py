@@ -2,6 +2,9 @@ from fastapi import FastAPI, Request, Response
 from fastapi.responses import JSONResponse
 from service.model import NLPModel
 import json
+import sys
+
+print(sys.version)
 
 app = FastAPI()
 model = NLPModel()
